@@ -1,16 +1,16 @@
 import Canvas from './canvas'
 import Game from './game'
+import updateFunc from './game/update'
+import drawFunc from './game/draw'
+import initialState from './game/state'
 
-const updateFunc = ({num}) => ({num: num + 1})
-const drawFunc = state => ctx => {
-  ctx.fillRect(0, 0, state.num, 51)
-}
 const canvas = new Canvas('canvas', 1024, 650)
-const game = new Game(canvas, updateFunc, drawFunc, {num: 1})
+const game = new Game(canvas, updateFunc, drawFunc, initialState)
 
 const loop = () => {
   game.loop()
   window.requestAnimationFrame(loop)
 }
 
+// Start loop
 loop()
