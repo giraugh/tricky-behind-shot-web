@@ -1,0 +1,21 @@
+{
+  "name": "tricky-behind-shot-web",
+  "version": "1.0.0",
+  "description": "Tricky Behind Shot remade for the web",
+  "scripts": {
+    "start": "parcel public/index.html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/retroverse/tricky-behind-shot-web.git"
+  },
+  "author": "Ewan Breakey",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/retroverse/tricky-behind-shot-web/issues"
+  },
+  "homepage": "https://github.com/retroverse/tricky-behind-shot-web#readme",
+  "devDependencies": {
+    "parcel-bundler": "^1.12.3"
+  }
+}
