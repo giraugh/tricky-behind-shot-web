@@ -7,6 +7,14 @@ export default class Canvas {
     this.context = this.canvas.getContext('2d')
   }
 
+  getPosition () {
+    const rect = this.canvas.getBoundingClientRect()
+    return {
+      x: rect.left,
+      y: rect.top
+    }
+  }
+
   draw (drawOperation) {
     drawOperation(this.context)
   }
