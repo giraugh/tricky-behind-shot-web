@@ -1,56 +1,16 @@
-enum UnitClass {
-  Grunt,
-  Archer,
-  Tank,
-  King,
-  Paladin,
-  Sprinter
-}
+import {InitialStateFunc} from '../t/state'
+import {Player} from '../t/player'
+import {unitsFromTeamCompositions} from './unit'
 
-enum Turn {
-  RedPlayer,
-  BluePlayer
-}
-
-type Position = {
-  x : number,
-  y : number
-}
-
-type UnitID = number
-
-type Unit = {
-  id : UnitID,
-  class : UnitClass,
-  position : Position,
-  damageTaken : number,
-  actionsCompleted : number
-}
-
-type GameState = {
-  turn : Turn,
-  units : Unit[],
-  turnTime : number // in milliseconds
-}
-
-type UIState = {
-
-}
-
-type State = {
-  game : GameState,
-  ui : UIState
-}
-
-const initialState : State = {
+const initialStateFunc : InitialStateFunc = (parameters) => ({
   game: {
-    turn: Turn.RedPlayer,
-    units: [],
-    turnTime: 0
+    turn: Player.RedPlayer,
+    units: unitsFromTeamCompositions(parameters.teamCompositions),
+    turnStartTime: Date.now()
   },
   ui: {
 
   }
-}
+})
 
-export default initialState
+export default initialStateFunc

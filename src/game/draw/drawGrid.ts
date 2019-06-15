@@ -1,11 +1,11 @@
-import config from '../config/config'
+import grid from '../config/grid'
 
 // Get grid size in cells from config
-const gridWidth = config.grid.width
-const gridHeight = config.grid.height
-const gridMargin = config.grid.margin
+const gridWidth = grid.width
+const gridHeight = grid.height
+const gridMargin = grid.margin
 
-export default ctx => {
+export default (ctx : CanvasRenderingContext2D) => {
   // get canvas size
   const canvasWidth = ctx.canvas.width
 

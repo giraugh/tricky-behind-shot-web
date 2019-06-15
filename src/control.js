@@ -18,6 +18,9 @@ export default class GameControl {
     const newState = this.updateFunc(this.state, input, deltaTime)
     this.state = {...newState}
 
+    // for debugging purposes
+    window.state = {...this.state}
+
     // Update updateTime
     this.previousUpdateTime = Date.now()
   }

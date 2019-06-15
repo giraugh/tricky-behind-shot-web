@@ -1,6 +1,7 @@
+import {State} from '../t/state'
 import drawGrid from './drawGrid'
 
-export default state => ctx => {
+export default (state : State) => (ctx : CanvasRenderingContext2D) => {
   // get canvas size
   const width = ctx.canvas.width
   const height = ctx.canvas.height
