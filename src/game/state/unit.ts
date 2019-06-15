@@ -17,6 +17,6 @@ export const createUnit : CreateUnitFunc = (player, unitClass, position) => ({
 type UnitsFromTeamCompositionsFunc = (teamCompositions : TeamCompositions) => Unit[]
 export const unitsFromTeamCompositions : UnitsFromTeamCompositionsFunc = (teamCompositions) =>
   [
-    ...teamCompositions.red.map((unitClass, i) => createUnit(Player.RedPlayer, unitClass, {x: 1, y: i})),
-    ...teamCompositions.blue.map((unitClass, i) => createUnit(Player.BluePlayer, unitClass, {x: grid.width - 2, y: i}))
+    ...teamCompositions.red.map((unitClass, i) => createUnit(Player.RedPlayer, unitClass, {x: 1, y: 1 + i})),
+    ...teamCompositions.blue.map((unitClass, i) => createUnit(Player.BluePlayer, unitClass, {x: grid.width - 2, y: 1 + i}))
   ]

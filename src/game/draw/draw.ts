@@ -1,5 +1,6 @@
 import {State} from '../t/state'
 import drawGrid from './drawGrid'
+import drawUnits from './drawUnits'
 
 export default (state : State) => (ctx : CanvasRenderingContext2D) => {
   // get canvas size
@@ -11,4 +12,7 @@ export default (state : State) => (ctx : CanvasRenderingContext2D) => {
 
   // draw grid
   drawGrid(ctx)
+
+  // draw units
+  drawUnits(state.game.units, ctx)
 }

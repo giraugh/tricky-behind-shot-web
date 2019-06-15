@@ -1,40 +1,37 @@
-import grid from '../config/grid'
-
-// Get grid size in cells from config
-const gridWidth = grid.width
-const gridHeight = grid.height
-const gridMargin = grid.margin
+import {getGridInformation} from './gridPositioning'
+import {gridLineColour} from '../config/colour'
 
 export default (ctx : CanvasRenderingContext2D) => {
-  // get canvas size
-  const canvasWidth = ctx.canvas.width
 
-  // Draw grid with width and height from config, scales to canvas size (uses entire canvas)
+  // Get grid positioning
+  const {
+    left,
+    right,
+    top,
+    bottom,
+    width,
+    height,
+    cellSize
+  } = getGridInformation(ctx)
 
   // set grid colour
-  ctx.strokeStyle = 'black'
-
-  // Get grid and cell sizes
-  const cellSize = Math.floor((canvasWidth - (2 * gridMargin)) / gridWidth)
-  const rightEdge = gridMargin + cellSize * gridWidth
-  const bottomEdge = gridMargin + cellSize * gridHeight
-  const leftEdge = gridMargin
-  const topEdge = gridMargin
+  ctx.lineWidth = 1
+  ctx.strokeStyle = gridLineColour
 
   // draw horiz grid lines
-  for (let i = 0; i < gridWidth + 1; i++) {
-    const xx = leftEdge + i * cellSize
+  for (let i = 0; i < width + 1; i++) {
+    const xx = left + i * cellSize
     ctx.beginPath()
-    ctx.moveTo(xx, topEdge)
-    ctx.lineTo(xx, bottomEdge)
+    ctx.moveTo(xx, top)
+    ctx.lineTo(xx, bottom)
     ctx.stroke()
   }
   // draw vert grid lines
-  for (let j = 0; j < gridHeight + 1; j++) {
-    const yy = topEdge + j * cellSize
+  for (let j = 0; j < height + 1; j++) {
+    const yy = top + j * cellSize
     ctx.beginPath()
-    ctx.moveTo(leftEdge, yy)
-    ctx.lineTo(rightEdge, yy)
+    ctx.moveTo(left, yy)
+    ctx.lineTo(right, yy)
     ctx.stroke()
   }
 }
