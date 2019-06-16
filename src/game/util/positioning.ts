@@ -4,6 +4,19 @@ import {UnitPosition} from '../t/unit'
 
 export type PixelPosition = { x : number, y : number}
 
+export const centerPosition = (position : PixelPosition, canvasRect : CanvasRectangle) => {
+  const {cellSize} = getGridInformation(canvasRect)
+  return {
+    x: position.x + cellSize / 2,
+    y: position.y + cellSize / 2
+  }
+}
+
+export const unitCenterPosition = (position : UnitPosition, canvasRect : CanvasRectangle) : PixelPosition => {
+  const canvasPosition = unitPositionToCanvasPosition(position, canvasRect)
+  return centerPosition(canvasPosition, canvasRect)
+}
+
 export const clientPositionToUnitPosition = (position : PixelPosition, canvasRect : CanvasRectangle) : UnitPosition | undefined => {
   if (clientPositionInsideGrid(position, canvasRect)) {
     const canvasPosition = clientPositionToCanvasPosition(position, canvasRect)

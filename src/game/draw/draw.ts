@@ -2,6 +2,7 @@ import {CanvasRectangle} from '../t/canvas'
 import {State} from '../t/state'
 import drawGrid from './drawGrid'
 import drawUnits from './drawUnits'
+import drawSelectingEffects from './drawSelectingEffects'
 
 export default (state : State, canvasRect : CanvasRectangle) => (ctx : CanvasRenderingContext2D) => {
   // get canvas size
@@ -14,6 +15,9 @@ export default (state : State, canvasRect : CanvasRectangle) => (ctx : CanvasRen
   // draw grid
   drawGrid(canvasRect, ctx)
 
+  // draw selecting effects
+  drawSelectingEffects(state, canvasRect, ctx)
+
   // draw units
-  drawUnits(state.game.units, state.ui, canvasRect, ctx)
+  drawUnits([...state.game.units], state.ui, canvasRect, ctx)
 }

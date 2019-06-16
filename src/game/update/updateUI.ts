@@ -32,26 +32,27 @@ const updateUI : UpdateUIFunc = (ui, input, dt, canvasRect, state) => {
     }
   }
 
-  // De-selecting units
-  if (ui.selectedUnit !== null) {
-    if (input.type == InputType.RELEASED) {
-      ui.selectedUnit = null
+  // Dragging units
+  for (let i = 0; i < units.length; i++) {
+    const unit = units[i]
+    const canvasPosition = unitPositionToCanvasPosition(unit.position, canvasRect)
+    if (i === ui.selectedUnit) {
+      ui.unitDrawPosition[i] = {x: input.x - (gridCellSize / 2), y: input.y - (gridCellSize / 2)}
+    } else {
+      const dx = ui.unitDrawPosition[i].x
+      const dy = ui.unitDrawPosition[i].y
+      ui.unitDrawPosition[i] = {
+        x: lerp(dx, canvasPosition.x, grid.unitHighlightAnimSpeed * 1.5),
+        y: lerp(dy, canvasPosition.y, grid.unitHighlightAnimSpeed * 1.5)
+      }
     }
   }
 
-  // Dragging units
-  for (let i = 0; i < units.length; i++) {
-    if (i === ui.selectedUnit) {
-      const unit = units[i]
-      const canvasPosition = unitPositionToCanvasPosition(unit.position, canvasRect)
-      ui.unitDragOffsets[i] = {x: input.x - canvasPosition.x - (gridCellSize / 2), y: input.y - canvasPosition.y - (gridCellSize / 2)}
-    } else {
-      const dx = ui.unitDragOffsets[i].x
-      const dy = ui.unitDragOffsets[i].y
-      ui.unitDragOffsets[i] = {
-        x: lerp(dx, 0, grid.unitHighlightAnimSpeed * 1.5),
-        y: lerp(dy, 0, grid.unitHighlightAnimSpeed * 1.5)
-      }
+  // De-selecting units
+  if (ui.selectedUnit !== null) {
+    if (input.type == InputType.RELEASED) {
+      const unit = units.find(unit => unit.id === ui.selectedUnit)
+      ui.selectedUnit = null
     }
   }
 

@@ -1,6 +1,6 @@
 import {InitialStateFunc} from '../t/state'
 import {Player} from '../t/player'
-import { PixelPosition } from '../util/positioning'
+import {PixelPosition} from '../util/positioning'
 import {unitsFromTeamCompositions, unitDictFromTeamCompositions} from './unit'
 
 const initialStateFunc : InitialStateFunc = (parameters) => ({
@@ -13,7 +13,7 @@ const initialStateFunc : InitialStateFunc = (parameters) => ({
     highlightedUnit: null,
     selectedUnit: null,
     unitLifts: unitDictFromTeamCompositions(parameters.teamCompositions, 0),
-    unitDragOffsets: unitDictFromTeamCompositions<PixelPosition>(parameters.teamCompositions, {x: 0, y: 0})
+    unitDrawPosition: unitDictFromTeamCompositions<PixelPosition>(parameters.teamCompositions, {x: 0, y: 0})
   }
 })
 

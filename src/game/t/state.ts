@@ -13,7 +13,7 @@ export type UIState = {
   highlightedUnit : UnitID | null,
   selectedUnit : UnitID | null,
   unitLifts : { [unitId : number] : number },
-  unitDragOffsets: { [unitId : number] : PixelPosition }
+  unitDrawPosition: { [unitId : number] : PixelPosition }
 }
 
 export type State = {

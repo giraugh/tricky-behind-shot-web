@@ -27,7 +27,7 @@ export default class GameControl {
 
   draw () {
     const canvasRect = this.canvas.getRect()
-    const drawOperation = this.drawFunc(this.state, canvasRect)
+    const drawOperation = this.drawFunc({...this.state}, canvasRect)
     this.canvas.draw(drawOperation)
   }
 

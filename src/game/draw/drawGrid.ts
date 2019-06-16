@@ -1,6 +1,7 @@
 import {CanvasRectangle} from '../t/canvas'
 import {getGridInformation} from '../util/positioning'
 import {gridLineColour} from '../config/colour'
+import {formatColour} from '../util/colour'
 
 export default (canvasRect : CanvasRectangle, ctx : CanvasRenderingContext2D) => {
 
@@ -17,7 +18,7 @@ export default (canvasRect : CanvasRectangle, ctx : CanvasRenderingContext2D) =>
 
   // set grid colour
   ctx.lineWidth = 1
-  ctx.strokeStyle = gridLineColour
+  ctx.strokeStyle = formatColour(gridLineColour)
 
   // draw horiz grid lines
   for (let i = 0; i < width + 1; i++) {

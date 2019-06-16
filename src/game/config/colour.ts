@@ -1,3 +1,3 @@
-export const gridLineColour = 'rgba(128, 128, 128, 255)'
-export const redPlayerColour = 'rgba(255, 53, 103, 255)'
-export const bluePlayerColour = 'rgba(137, 104, 255, 255)'
+export const gridLineColour = '128, 128, 128'
+export const redPlayerColour = '255, 53, 103'
+export const bluePlayerColour = '137, 104, 255'

@@ -1,4 +1,5 @@
 import {UnitClass} from '../t/unit'
+import {MovementRule, surroundingPositions} from '../util/movement'
 
 type UnitLabels = {[unitClass: number] : string}
 export const unitLabels : UnitLabels = {
@@ -8,4 +9,34 @@ export const unitLabels : UnitLabels = {
   [UnitClass.Sprinter] : 'S',
   [UnitClass.Paladin] : 'P',
   [UnitClass.Tank] : 'T'
+}
+
+type UnitHealthValues = {[unitClass: number] : number}
+export const unitHealthValues : UnitHealthValues = {
+  [UnitClass.Grunt] : 2,
+  [UnitClass.Archer] : 1,
+  [UnitClass.King]: 2,
+  [UnitClass.Sprinter] : 1,
+  [UnitClass.Paladin] : 2,
+  [UnitClass.Tank] : 4
+}
+
+type UnitDamageValues = {[unitClass: number] : number}
+export const unitDamageValues : UnitDamageValues = {
+  [UnitClass.Grunt] : 2,
+  [UnitClass.Archer] : 1,
+  [UnitClass.King]: 0,
+  [UnitClass.Sprinter] : 1,
+  [UnitClass.Paladin] : 1,
+  [UnitClass.Tank] : 1
+}
+
+type MovementRules = { [unitClass : number] : MovementRule }
+export const movementRules : MovementRules = {
+  [UnitClass.Grunt]: position => surroundingPositions(position, 1, true),
+  [UnitClass.Sprinter]: position => surroundingPositions(position, 2, false),
+  [UnitClass.Tank]: position => surroundingPositions(position, 1, false),
+  [UnitClass.Archer]: position => surroundingPositions(position, 1, true),
+  [UnitClass.Paladin]: position => surroundingPositions(position, 1, true),
+  [UnitClass.King]: position => surroundingPositions(position, 2, true)
 }
