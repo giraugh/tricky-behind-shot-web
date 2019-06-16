@@ -1,7 +1,13 @@
+import isEqual from 'lodash.isequal'
+import uniqWith from 'lodash.uniqwith'
 import {UnitPosition} from '../t/unit'
 import grid from '../config/grid'
 
 export type MovementRule = (position : UnitPosition) => UnitPosition[]
+
+export const removeDuplicates = (positions : UnitPosition[]) : UnitPosition[] => {
+  return uniqWith(positions, isEqual)
+}
 
 export const removeOutside = (positions : UnitPosition[]) : UnitPosition[] => {
   const {width, height} = grid

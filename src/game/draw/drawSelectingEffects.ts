@@ -5,7 +5,7 @@ import {getUnitColour} from '../util/colour'
 import {movementRules} from '../config/unit'
 
 const drawSelectingEffects = ({game, ui} : State, canvasRect : CanvasRectangle, ctx : CanvasRenderingContext2D) => {
-  const selectedUnit = game.units.find(unit => unit.id == ui.selectedUnit)
+  const selectedUnit = game.units.find(unit => unit.id == ui.highlightedUnit)
   const {cellSize} = getGridInformation(canvasRect)
 
   if (selectedUnit) {

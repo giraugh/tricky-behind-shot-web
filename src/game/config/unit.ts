@@ -1,5 +1,5 @@
 import {UnitClass} from '../t/unit'
-import {MovementRule, surroundingPositions} from '../util/movement'
+import {MovementRule, surroundingPositions, removeDuplicates} from '../util/movement'
 
 type UnitLabels = {[unitClass: number] : string}
 export const unitLabels : UnitLabels = {
@@ -31,6 +31,16 @@ export const unitDamageValues : UnitDamageValues = {
   [UnitClass.Tank] : 1
 }
 
+type MaximumActionValues = {[unitClass: number] : number}
+export const maximumActionValues : MaximumActionValues = {
+  [UnitClass.Grunt] : 2,
+  [UnitClass.Archer] : 2,
+  [UnitClass.King]: 1,
+  [UnitClass.Sprinter] : 2,
+  [UnitClass.Paladin] : 2,
+  [UnitClass.Tank] : 2
+}
+
 type MovementRules = { [unitClass : number] : MovementRule }
 export const movementRules : MovementRules = {
   [UnitClass.Grunt]: position => surroundingPositions(position, 1, true),
@@ -38,5 +48,5 @@ export const movementRules : MovementRules = {
   [UnitClass.Tank]: position => surroundingPositions(position, 1, false),
   [UnitClass.Archer]: position => surroundingPositions(position, 1, true),
   [UnitClass.Paladin]: position => surroundingPositions(position, 1, true),
-  [UnitClass.King]: position => surroundingPositions(position, 2, true)
+  [UnitClass.King]: position => removeDuplicates([...surroundingPositions(position, 1, true), ...surroundingPositions(position, 2, false)])
 }

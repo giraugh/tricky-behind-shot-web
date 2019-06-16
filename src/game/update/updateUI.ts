@@ -4,6 +4,7 @@ import {Input, InputType} from '../t/input'
 import grid from '../config/grid'
 import {getGridInformation, canvasPositionToUnitPosition, unitPositionToCanvasPosition} from '../util/positioning'
 import {lerp} from '../util/maths'
+import {maximumActionValues} from '../config/unit'
 
 type UpdateUIFunc = (ui : UIState, input : Input, dt : number, canvasRect : CanvasRectangle, state : State) => UIState
 const updateUI : UpdateUIFunc = (ui, input, dt, canvasRect, state) => {
@@ -16,7 +17,12 @@ const updateUI : UpdateUIFunc = (ui, input, dt, canvasRect, state) => {
   if (gridMousePosition) {
     const highlightedUnit = units.find(unit => unit.position.x === gridMousePosition.x && unit.position.y === gridMousePosition.y)
     if (highlightedUnit) {
-      ui.highlightedUnit = highlightedUnit.id
+      // Don't highlight it if It has no actions remaining
+      const maximumActions = maximumActionValues[highlightedUnit.class]
+      const hasRemainingActions = highlightedUnit.actionsCompleted < maximumActions
+      if (hasRemainingActions) {
+        ui.highlightedUnit = highlightedUnit.id
+      }
     }
   }
 

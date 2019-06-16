@@ -4,9 +4,10 @@ import {UIState} from '../t/state'
 import {getGridInformation, unitPositionToCanvasPosition} from '../util/positioning'
 import {lerp} from '../util/maths'
 import grid from '../config/grid'
-import {getUnitColour} from '../util/colour'
-import {unitLabels} from '../config/unit'
+import {getUnitColour, formatColour} from '../util/colour'
+import {unitLabels, maximumActionValues} from '../config/unit'
 import drawUnitDragLine from './drawUnitDragLine'
+import {gridLineColour} from '../config/colour'
 
 const drawUnit = (unit : Unit, ui : UIState, canvasRect : CanvasRectangle, ctx : CanvasRenderingContext2D) => {
   const {cellSize} = getGridInformation(canvasRect)
@@ -14,7 +15,11 @@ const drawUnit = (unit : Unit, ui : UIState, canvasRect : CanvasRectangle, ctx :
   const lineWidth = grid.unitLineWidth
   const unitLabelYOffset = grid.unitLabelYOffset
   const label = unitLabels[unit.class]
-  const colour = getUnitColour(unit)
+
+  // Does unit have remaining actions?
+  const maximumActions = maximumActionValues[unit.class]
+  const hasRemainingActions = unit.actionsCompleted < maximumActions
+  const colour = hasRemainingActions ? getUnitColour(unit) : formatColour(gridLineColour)
 
   // Calculate unit draw position after potential drag
   const drawPosition = ui.unitDrawPosition[unit.id]
