@@ -1,7 +1,8 @@
-import {getGridInformation} from './gridPositioning'
+import {CanvasRectangle} from '../t/canvas'
+import {getGridInformation} from '../util/positioning'
 import {gridLineColour} from '../config/colour'
 
-export default (ctx : CanvasRenderingContext2D) => {
+export default (canvasRect : CanvasRectangle, ctx : CanvasRenderingContext2D) => {
 
   // Get grid positioning
   const {
@@ -12,7 +13,7 @@ export default (ctx : CanvasRenderingContext2D) => {
     width,
     height,
     cellSize
-  } = getGridInformation(ctx)
+  } = getGridInformation(canvasRect)
 
   // set grid colour
   ctx.lineWidth = 1

@@ -8,15 +8,15 @@ export default class GameControl {
     this.state = {...initialState}
     this.previousUpdateTime = Date.now()
 
-    const canvasPos = this.canvas.getPosition()
-    this.input = new Input(canvasPos.x, canvasPos.y)
+    this.input = new Input(this.canvas.getPosition.bind(this.canvas))
   }
 
   update () {
     const deltaTime = Date.now() - this.previousUpdateTime
     const input = this.input.getMouseInput()
-    const newState = this.updateFunc(this.state, input, deltaTime)
-    this.state = {...newState}
+    const canvasRect = this.canvas.getRect()
+    const newState = this.updateFunc({...this.state}, input, deltaTime, canvasRect)
+    this.state = newState
 
     // for debugging purposes
     window.state = {...this.state}
@@ -26,7 +26,8 @@ export default class GameControl {
   }
 
   draw () {
-    const drawOperation = this.drawFunc(this.state)
+    const canvasRect = this.canvas.getRect()
+    const drawOperation = this.drawFunc(this.state, canvasRect)
     this.canvas.draw(drawOperation)
   }
 

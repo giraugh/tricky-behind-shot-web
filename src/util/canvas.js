@@ -7,11 +7,26 @@ export default class Canvas {
     this.context = this.canvas.getContext('2d')
   }
 
-  getPosition () {
-    const rect = this.canvas.getBoundingClientRect()
+  getRect () {
     return {
-      x: rect.left,
-      y: rect.top
+      ...this.getSize(),
+      ...this.getPosition()
+    }
+  }
+
+  getSize () {
+    const {width, height} = this.canvas.getBoundingClientRect()
+    return {
+      width,
+      height
+    }
+  }
+
+  getPosition () {
+    const {x, y} = this.canvas.getBoundingClientRect()
+    return {
+      x,
+      y
     }
   }
 

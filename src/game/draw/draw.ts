@@ -1,18 +1,19 @@
+import {CanvasRectangle} from '../t/canvas'
 import {State} from '../t/state'
 import drawGrid from './drawGrid'
 import drawUnits from './drawUnits'
 
-export default (state : State) => (ctx : CanvasRenderingContext2D) => {
+export default (state : State, canvasRect : CanvasRectangle) => (ctx : CanvasRenderingContext2D) => {
   // get canvas size
-  const width = ctx.canvas.width
-  const height = ctx.canvas.height
+  const width = canvasRect.width
+  const height = canvasRect.height
 
   // Clear screen
   ctx.clearRect(0, 0, width, height)
 
   // draw grid
-  drawGrid(ctx)
+  drawGrid(canvasRect, ctx)
 
   // draw units
-  drawUnits(state.game.units, ctx)
+  drawUnits(state.game.units, state.ui, canvasRect, ctx)
 }
