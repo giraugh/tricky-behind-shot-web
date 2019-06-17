@@ -7,7 +7,8 @@ const initialStateFunc : InitialStateFunc = (parameters) => ({
   game: {
     turn: Player.RedPlayer,
     units: unitsFromTeamCompositions(parameters.teamCompositions),
-    turnStartTime: Date.now()
+    turnStartTime: Date.now(),
+    turnActionsCompleted: 0
   },
   ui: {
     highlightedUnit: null,

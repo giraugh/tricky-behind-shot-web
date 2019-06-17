@@ -5,6 +5,7 @@ import grid from '../config/grid'
 import {getGridInformation, canvasPositionToUnitPosition, unitPositionToCanvasPosition} from '../util/positioning'
 import {lerp} from '../util/maths'
 import {maximumActionValues} from '../config/unit'
+import params from '../config/params'
 
 type UpdateUIFunc = (ui : UIState, input : Input, dt : number, canvasRect : CanvasRectangle, state : State) => UIState
 const updateUI : UpdateUIFunc = (ui, input, dt, canvasRect, state) => {
@@ -18,7 +19,7 @@ const updateUI : UpdateUIFunc = (ui, input, dt, canvasRect, state) => {
     const highlightedUnit = units.find(unit => unit.position.x === gridMousePosition.x && unit.position.y === gridMousePosition.y)
     if (highlightedUnit) {
       // Don't highlight it if It has no actions remaining
-      const maximumActions = maximumActionValues[highlightedUnit.class]
+      const maximumActions = maximumActionValues[highlightedUnit.class] + highlightedUnit.bonusActionsGranted
       const hasRemainingActions = highlightedUnit.actionsCompleted < maximumActions
       if (hasRemainingActions) {
         ui.highlightedUnit = highlightedUnit.id
@@ -34,22 +35,28 @@ const updateUI : UpdateUIFunc = (ui, input, dt, canvasRect, state) => {
   // Selecting Units
   if (ui.highlightedUnit !== null && ui.selectedUnit === null) {
     if (input.type == InputType.PRESSED) {
-      ui.selectedUnit = ui.highlightedUnit
+      // Is it their turn?
+      const unit = units.find(unit => unit.id === ui.highlightedUnit)
+      if (unit.player === state.game.turn) {
+        ui.selectedUnit = ui.highlightedUnit
+      }
     }
   }
 
-  // Dragging units
-  for (let i = 0; i < units.length; i++) {
-    const unit = units[i]
-    const canvasPosition = unitPositionToCanvasPosition(unit.position, canvasRect)
-    if (i === ui.selectedUnit) {
-      ui.unitDrawPosition[i] = {x: input.x - (gridCellSize / 2), y: input.y - (gridCellSize / 2)}
-    } else {
-      const dx = ui.unitDrawPosition[i].x
-      const dy = ui.unitDrawPosition[i].y
-      ui.unitDrawPosition[i] = {
-        x: lerp(dx, canvasPosition.x, grid.unitHighlightAnimSpeed * 1.5),
-        y: lerp(dy, canvasPosition.y, grid.unitHighlightAnimSpeed * 1.5)
+  // Unit Draw Positions
+  for (let i = 0; i < params.teamSize * 2; i++) {
+    const unit = units.find(unit => unit.id === i)
+    if (unit) {
+      const canvasPosition = unitPositionToCanvasPosition(unit.position, canvasRect)
+      if (unit.id === ui.selectedUnit) {
+        ui.unitDrawPosition[unit.id] = {x: input.x - (gridCellSize / 2), y: input.y - (gridCellSize / 2)}
+      } else {
+        const dx = ui.unitDrawPosition[unit.id].x
+        const dy = ui.unitDrawPosition[unit.id].y
+        ui.unitDrawPosition[unit.id] = {
+          x: lerp(dx, canvasPosition.x, grid.unitHighlightAnimSpeed * 1.5),
+          y: lerp(dy, canvasPosition.y, grid.unitHighlightAnimSpeed * 1.5)
+        }
       }
     }
   }
@@ -57,17 +64,23 @@ const updateUI : UpdateUIFunc = (ui, input, dt, canvasRect, state) => {
   // De-selecting units
   if (ui.selectedUnit !== null) {
     if (input.type == InputType.RELEASED) {
-      const unit = units.find(unit => unit.id === ui.selectedUnit)
       ui.selectedUnit = null
     }
   }
 
   // Update Unit lifting effect
-  for (let i = 0; i < units.length; i++) {
-    if (i === ui.highlightedUnit) {
-      ui.unitLifts[i] = lerp(ui.unitLifts[i], 1, grid.unitHighlightAnimSpeed)
-    } else {
-      ui.unitLifts[i] = lerp(ui.unitLifts[i], 0, grid.unitHighlightAnimSpeed * 1.5)
+  for (let i = 0; i < params.teamSize * 2; i++) {
+    const unit = units.find(unit => unit.id === i)
+    if (unit) {
+      if (unit.id === ui.highlightedUnit) {
+        if (unit.player === state.game.turn) {
+          ui.unitLifts[unit.id] = lerp(ui.unitLifts[unit.id], 1, grid.unitHighlightAnimSpeed)
+        } else {
+          ui.unitLifts[unit.id] = lerp(ui.unitLifts[unit.id], 0, grid.unitHighlightAnimSpeed)
+        }
+      } else {
+        ui.unitLifts[unit.id] = lerp(ui.unitLifts[unit.id], 0, grid.unitHighlightAnimSpeed * 1.5)
+      }
     }
   }
 

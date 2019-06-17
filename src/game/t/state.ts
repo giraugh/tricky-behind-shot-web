@@ -6,6 +6,7 @@ import {GameParameters} from './params'
 export type GameState = {
   turn : Player,
   units : Unit[],
+  turnActionsCompleted : number,
   turnStartTime : number // in milliseconds
 }
 

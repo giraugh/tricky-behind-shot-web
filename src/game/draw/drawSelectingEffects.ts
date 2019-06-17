@@ -24,6 +24,7 @@ const drawSelectingEffects = ({game, ui} : State, canvasRect : CanvasRectangle, 
       const highlighted = cx == position.x && cy === position.y
       const inhabited = game.units.find(unit => unit.position.x === position.x && unit.position.y === position.y) !== undefined
 
+      // Draw move squares and borders
       ctx.fillStyle = highlighted ? squareHighlightedColour : (inhabited ? squareInhabitedColour : squareDefaultColour)
       ctx.strokeStyle = borderColour
       ctx.lineWidth = 2

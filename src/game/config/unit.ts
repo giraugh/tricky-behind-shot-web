@@ -21,12 +21,12 @@ export const unitHealthValues : UnitHealthValues = {
   [UnitClass.Tank] : 4
 }
 
-type UnitDamageValues = {[unitClass: number] : number}
-export const unitDamageValues : UnitDamageValues = {
+type UnitAttackDamageValues = {[unitClass: number] : number}
+export const unitAttackDamageValues : UnitAttackDamageValues = {
   [UnitClass.Grunt] : 2,
   [UnitClass.Archer] : 1,
-  [UnitClass.King]: 0,
-  [UnitClass.Sprinter] : 1,
+  [UnitClass.King]: 1,
+  [UnitClass.Sprinter] : 2,
   [UnitClass.Paladin] : 1,
   [UnitClass.Tank] : 1
 }

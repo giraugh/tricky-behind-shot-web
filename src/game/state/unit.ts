@@ -12,7 +12,8 @@ export const createUnit : CreateUnitFunc = (player, unitClass, position) => ({
   class: unitClass,
   position,
   damageTaken: 0,
-  actionsCompleted: 0
+  actionsCompleted: 0,
+  bonusActionsGranted: 0
 })
 
 type UnitsFromTeamCompositionsFunc = (teamCompositions : TeamCompositions) => Unit[]

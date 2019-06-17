@@ -17,7 +17,7 @@ const drawUnit = (unit : Unit, ui : UIState, canvasRect : CanvasRectangle, ctx :
   const label = unitLabels[unit.class]
 
   // Does unit have remaining actions?
-  const maximumActions = maximumActionValues[unit.class]
+  const maximumActions = maximumActionValues[unit.class] + unit.bonusActionsGranted
   const hasRemainingActions = unit.actionsCompleted < maximumActions
   const colour = hasRemainingActions ? getUnitColour(unit) : formatColour(gridLineColour)
 
@@ -33,7 +33,7 @@ const drawUnit = (unit : Unit, ui : UIState, canvasRect : CanvasRectangle, ctx :
   const fontSize = lerp(grid.labelFontSizeDefault, grid.labelFontSizeHighlighted, unitLift)
 
   // Draw drag line
-  if (ui.highlightedUnit === unit.id) {
+  if (ui.selectedUnit === unit.id) {
     drawUnitDragLine(unit, ui, canvasRect, ctx)
   }
 

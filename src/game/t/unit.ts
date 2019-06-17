@@ -23,5 +23,6 @@ export type Unit = {
   class : UnitClass,
   position : UnitPosition,
   damageTaken : number,
-  actionsCompleted : number
+  actionsCompleted : number,
+  bonusActionsGranted : number
 }
