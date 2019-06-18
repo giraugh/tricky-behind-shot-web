@@ -33,3 +33,9 @@ export const surroundingPositions = (position : UnitPosition, distance : number,
 
   return removeOutside(positions)
 }
+
+export const excludePositions = (positions : UnitPosition[], positionToExclude : UnitPosition[]) : UnitPosition[] => {
+  return positions.filter(
+    position => positionToExclude.find(eposition => eposition.x === position.x && eposition.y === position.y) === undefined
+  )
+}

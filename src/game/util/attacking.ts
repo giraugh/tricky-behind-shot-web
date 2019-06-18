@@ -15,7 +15,7 @@ export const resolveAttackedUnit = (defendingUnit : Unit, units : Unit[]) : Unit
   for (let position of adjacentPositions) {
     const unit = units.find(unit => unit && unit.position.x === position.x && unit.position.y === position.y)
     if (unit) {
-      if (unit.class === UnitClass.Paladin) {
+      if (unit.class === UnitClass.Paladin && unit.player === defendingUnit.player) {
         return unit
       }
     }

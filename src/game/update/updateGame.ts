@@ -43,7 +43,7 @@ const updateGame : UpdateGameFunc = (game, input, dt, canvasRect, state) => {
           unit.position = targetPosition
 
           // Increment completed actions
-          unit.actionsCompleted += 1
+          //unit.actionsCompleted += 1
 
           // Action completed
           actionCompletedThisUpdate = true
@@ -59,6 +59,8 @@ const updateGame : UpdateGameFunc = (game, input, dt, canvasRect, state) => {
             const attackDamage = unitAttackDamageValues[unit.class]
             const defendingMaxHealth = unitHealthValues[defendingUnit.class]
             const defendingHealth = defendingMaxHealth - defendingUnit.damageTaken
+            const targetedMaxHealth = unitHealthValues[targetedUnit.class]
+            const targetedHealth = targetedMaxHealth - targetedUnit.damageTaken
 
             // Deal damage
             defendingUnit.damageTaken += attackDamage
@@ -73,9 +75,6 @@ const updateGame : UpdateGameFunc = (game, input, dt, canvasRect, state) => {
 
             // Did it die? (refering to the targetted unit)
             if (targetedUnit === defendingUnit) {
-              const targetedMaxHealth = unitHealthValues[targetedUnit.class]
-              const targetedHealth = targetedMaxHealth - targetedUnit.damageTaken
-
               if (targetedHealth - attackDamage <= 0) {
                 // Jump to its position
                 unit.position = targetedUnit.position
