@@ -96,7 +96,7 @@ const updateUI : UpdateUIFunc = (ui, input, dt, canvasRect, state) => {
     if (unit) {
       if (defendingUnit && unit.id === defendingUnit.id) {
         const willDie = attackWillKill(selectedUnit, defendingUnit)
-        ui.unitCrosses[unit.id] = lerp(ui.unitCrosses[unit.id], willDie ? 1 : 0.5, grid.unitHighlightAnimSpeed * .9)
+        ui.unitCrosses[unit.id] = lerp(ui.unitCrosses[unit.id], willDie ? 1 : 0.5, grid.unitHighlightAnimSpeed * .5)
       } else {
         ui.unitCrosses[unit.id] = lerp(ui.unitCrosses[unit.id], 0, grid.unitHighlightAnimSpeed)
       }
