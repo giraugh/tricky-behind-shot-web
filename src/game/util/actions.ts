@@ -3,7 +3,8 @@ import uniqWith from 'lodash.uniqwith'
 import {UnitPosition} from '../t/unit'
 import grid from '../config/grid'
 
-export type MovementRule = (position : UnitPosition) => UnitPosition[]
+export type ActionRule = (position : UnitPosition) => UnitPosition[]
+export type ActionRules = { [unitClass : number] : ActionRule }
 
 export const removeDuplicates = (positions : UnitPosition[]) : UnitPosition[] => {
   return uniqWith(positions, isEqual)

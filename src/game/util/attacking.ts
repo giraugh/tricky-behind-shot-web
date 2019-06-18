@@ -1,6 +1,6 @@
 import {Unit, UnitClass} from "../t/unit"
 import {unitHealthValues, unitAttackDamageValues} from '../config/unit'
-import {surroundingPositions} from './movement'
+import {surroundingPositions} from './actions'
 
 export const attackWillKill = (attackingUnit : Unit, defendingUnit : Unit) : boolean => {
   const attackDamage = unitAttackDamageValues[attackingUnit.class]

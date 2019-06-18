@@ -31,26 +31,31 @@ const updateGame : UpdateGameFunc = (game, input, dt, canvasRect, state) => {
 
       // Is this a legal move?
       const legalMoves = movementRules[unit.class](unitPosition)
+      const legalAttacks = movementRules[unit.class](unitPosition)
+      const legalAbilities = movementRules[unit.class](unitPosition)
       const isLegalMove = legalMoves.find(move => move.x === targetPosition.x && move.y === targetPosition.y) !== undefined
+      const isLegalAttack = legalAttacks.find(move => move.x === targetPosition.x && move.y === targetPosition.y) !== undefined
+      const isLegalAbility = legalAbilities.find(move => move.x === targetPosition.x && move.y === targetPosition.y) !== undefined
 
-      if (hasRemainingActions && isLegalMove && isUnitsTurn) {
+      if (hasRemainingActions && isUnitsTurn) {
         // Is there a unit there already?
         const targetedUnit = units.find(unit => unit.position.x === targetPosition.x && unit.position.y === targetPosition.y)
         if (targetedUnit === undefined) {
-          // Move there 
+          // Is this a legal move?
+          if (isLegalMove) {
+            // Update position
+            unit.position = targetPosition
 
-          // Update position
-          unit.position = targetPosition
+            // Increment completed actions
+            unit.actionsCompleted += 1
 
-          // Increment completed actions
-          //unit.actionsCompleted += 1
-
-          // Action completed
-          actionCompletedThisUpdate = true
+            // Action completed
+            actionCompletedThisUpdate = true
+          }
         } else {
           // What team is it on?
           const friendly = unit.player === targetedUnit.player
-          if (!friendly) {
+          if (!friendly && isLegalAttack) {
             // targetedUnit is how we are trying to attack, defendingUnit is how takes the damage
             // We get a bonus action for killing either but can only move to the position of the targeted unit when it dies
             const defendingUnit = resolveAttackedUnit(targetedUnit, units)
@@ -86,6 +91,10 @@ const updateGame : UpdateGameFunc = (game, input, dt, canvasRect, state) => {
 
             // Action completed
             actionCompletedThisUpdate = true
+          }
+
+          if (friendly && isLegalAbility) {
+            // #TODO:
           }
         }
       }

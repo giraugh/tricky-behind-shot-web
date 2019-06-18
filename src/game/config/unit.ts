@@ -1,5 +1,5 @@
 import {UnitClass} from '../t/unit'
-import {MovementRule, surroundingPositions, removeDuplicates, excludePositions} from '../util/movement'
+import {ActionRules, surroundingPositions, removeDuplicates, excludePositions} from '../util/actions'
 
 type UnitLabels = {[unitClass: number] : string}
 export const unitLabels : UnitLabels = {
@@ -17,7 +17,7 @@ export const unitHealthValues : UnitHealthValues = {
   [UnitClass.Archer] : 1,
   [UnitClass.King]: 2,
   [UnitClass.Sprinter] : 1,
-  [UnitClass.Paladin] : 2,
+  [UnitClass.Paladin] : 3,
   [UnitClass.Tank] : 4
 }
 
@@ -41,12 +41,27 @@ export const maximumActionValues : MaximumActionValues = {
   [UnitClass.Tank] : 2
 }
 
-type MovementRules = { [unitClass : number] : MovementRule }
-export const movementRules : MovementRules = {
+export const movementRules : ActionRules = {
   [UnitClass.Grunt]: position => surroundingPositions(position, 1, true),
   [UnitClass.Sprinter]: position => surroundingPositions(position, 2, false),
   [UnitClass.Tank]: position => surroundingPositions(position, 1, false),
-  [UnitClass.Archer]: position => excludePositions(surroundingPositions(position, 2, true), surroundingPositions(position, 1, true)),
+  [UnitClass.Archer]: position => surroundingPositions(position, 1, true),
   [UnitClass.Paladin]: position => surroundingPositions(position, 1, true),
   [UnitClass.King]: position => removeDuplicates([...surroundingPositions(position, 1, true), ...surroundingPositions(position, 2, false)])
+}
+export const attackingRules : ActionRules = {
+  [UnitClass.Grunt]: movementRules[UnitClass.Grunt],
+  [UnitClass.Sprinter]: movementRules[UnitClass.Sprinter],
+  [UnitClass.Tank]: movementRules[UnitClass.Tank],
+  [UnitClass.Archer]: position => excludePositions(surroundingPositions(position, 2, true), surroundingPositions(position, 1, true)),
+  [UnitClass.Paladin]: movementRules[UnitClass.Paladin],
+  [UnitClass.King]: position => surroundingPositions(position, 1, true)
+}
+export const abilityRules : ActionRules = {
+  [UnitClass.Grunt]: attackingRules[UnitClass.Grunt],
+  [UnitClass.Sprinter]: attackingRules[UnitClass.Sprinter],
+  [UnitClass.Tank]: attackingRules[UnitClass.Tank],
+  [UnitClass.Archer]: attackingRules[UnitClass.Archer],
+  [UnitClass.Paladin]: position => [],
+  [UnitClass.King]: attackingRules[UnitClass.King],
 }
