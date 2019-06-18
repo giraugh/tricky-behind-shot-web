@@ -2,9 +2,10 @@ import {CanvasRectangle} from '../t/canvas'
 import {State, GameState} from '../t/state'
 import {Input, InputType} from '../t/input'
 import {canvasPositionToUnitPosition} from '../util/positioning'
+import {resolveAttackedUnit} from '../util/attacking'
 import {movementRules, maximumActionValues, unitAttackDamageValues, unitHealthValues} from '../config/unit'
 import turns from '../config/turns'
-import { Player } from '../t/player';
+import {Player} from '../t/player';
 
 type UpdateGameFunc = (game : GameState, input : Input, dt : number, canvasRect : CanvasRectangle, state : State) => GameState
 const updateGame : UpdateGameFunc = (game, input, dt, canvasRect, state) => {
@@ -34,8 +35,8 @@ const updateGame : UpdateGameFunc = (game, input, dt, canvasRect, state) => {
 
       if (hasRemainingActions && isLegalMove && isUnitsTurn) {
         // Is there a unit there already?
-        const defendingUnit = units.find(unit => unit.position.x === targetPosition.x && unit.position.y === targetPosition.y)
-        if (defendingUnit === undefined) {
+        const targetedUnit = units.find(unit => unit.position.x === targetPosition.x && unit.position.y === targetPosition.y)
+        if (targetedUnit === undefined) {
           // Move there 
 
           // Update position
@@ -48,8 +49,12 @@ const updateGame : UpdateGameFunc = (game, input, dt, canvasRect, state) => {
           actionCompletedThisUpdate = true
         } else {
           // What team is it on?
-          const friendly = unit.player === defendingUnit.player
+          const friendly = unit.player === targetedUnit.player
           if (!friendly) {
+            // targetedUnit is how we are trying to attack, defendingUnit is how takes the damage
+            // We get a bonus action for killing either but can only move to the position of the targeted unit when it dies
+            const defendingUnit = resolveAttackedUnit(targetedUnit, units)
+
             // Attack it
             const attackDamage = unitAttackDamageValues[unit.class]
             const defendingMaxHealth = unitHealthValues[defendingUnit.class]
@@ -58,12 +63,23 @@ const updateGame : UpdateGameFunc = (game, input, dt, canvasRect, state) => {
             // Deal damage
             defendingUnit.damageTaken += attackDamage
 
-            // Did it die?
             if (defendingHealth - attackDamage <= 0) {
-              unit.position = defendingUnit.position
+              // Grant bonus actions
               unit.bonusActionsGranted += 1
 
+              // Remove the dead unit
               unitsToRemove.push(defendingUnit.id)
+            }
+
+            // Did it die? (refering to the targetted unit)
+            if (targetedUnit === defendingUnit) {
+              const targetedMaxHealth = unitHealthValues[targetedUnit.class]
+              const targetedHealth = targetedMaxHealth - targetedUnit.damageTaken
+
+              if (targetedHealth - attackDamage <= 0) {
+                // Jump to its position
+                unit.position = targetedUnit.position
+              }
             }
 
             // Increment completed actions
