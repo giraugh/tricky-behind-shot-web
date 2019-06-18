@@ -3,6 +3,7 @@ import {unitPositionToCanvasPosition, getGridInformation, canvasPositionToUnitPo
 import {CanvasRectangle} from "../t/canvas"
 import {getUnitColour} from '../util/colour'
 import {movementRules, attackingRules, abilityRules} from '../config/unit'
+import {abilityRequirements} from '../config/abilities'
 
 const drawSelectingEffects = ({game, ui} : State, canvasRect : CanvasRectangle, ctx : CanvasRenderingContext2D) => {
   const selectedUnit = game.units.find(unit => unit.id == ui.highlightedUnit)
@@ -33,9 +34,12 @@ const drawSelectingEffects = ({game, ui} : State, canvasRect : CanvasRectangle, 
       const isMove = legalMovementMoves.includes(position) && !inhabited
       const isAttack = legalAttackMoves.includes(position) && inhabited && !friendly
       const isAbility = legalAbilityMoves.includes(position) && inhabited && friendly
+      
+      const abilityRequirement = isAbility && abilityRequirements[selectedUnit.class]
+      const meetsRequirement = isAbility && abilityRequirement(selectedUnit, inhabitingUnit, game.units)
 
       // Draw move squares and borders
-      if (isMove || isAttack || isAbility) {
+      if (isMove || isAttack || (isAbility && meetsRequirement)) {
         ctx.fillStyle = highlighted ? squareHighlightedColour : (inhabited ? squareInhabitedColour : squareDefaultColour)
         ctx.strokeStyle = borderColour
         ctx.lineWidth = 2

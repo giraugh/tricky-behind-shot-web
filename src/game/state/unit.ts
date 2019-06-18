@@ -26,5 +26,8 @@ export const unitsFromTeamCompositions : UnitsFromTeamCompositionsFunc = (teamCo
 type UnitDictFromTeamCompositionsFunc = <T extends any>(teamCompositions : TeamCompositions, initValue : T) => {[unitId : number] : T}
 export const unitDictFromTeamCompositions : UnitDictFromTeamCompositionsFunc = <T extends any>(teamCompositions, initValue) =>
   fromEntries(
-    Array.from({length: teamCompositions.red.length + teamCompositions.blue.length}).fill(0).map((_,i) => [i, initValue])
+    Array
+      .from({length: teamCompositions.red.length + teamCompositions.blue.length})
+      .fill(0)
+      .map((_,i) => [i, (typeof initValue === 'function') ? initValue() : initValue])
   )

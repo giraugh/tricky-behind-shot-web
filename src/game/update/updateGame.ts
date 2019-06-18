@@ -3,7 +3,8 @@ import {State, GameState} from '../t/state'
 import {Input, InputType} from '../t/input'
 import {canvasPositionToUnitPosition} from '../util/positioning'
 import {resolveAttackedUnit} from '../util/attacking'
-import {movementRules, maximumActionValues, unitAttackDamageValues, unitHealthValues} from '../config/unit'
+import {movementRules, attackingRules, abilityRules, maximumActionValues, unitAttackDamageValues, unitHealthValues} from '../config/unit'
+import {abilityEffects, abilityRequirements} from '../config/abilities'
 import turns from '../config/turns'
 import {Player} from '../t/player';
 
@@ -31,8 +32,8 @@ const updateGame : UpdateGameFunc = (game, input, dt, canvasRect, state) => {
 
       // Is this a legal move?
       const legalMoves = movementRules[unit.class](unitPosition)
-      const legalAttacks = movementRules[unit.class](unitPosition)
-      const legalAbilities = movementRules[unit.class](unitPosition)
+      const legalAttacks = attackingRules[unit.class](unitPosition)
+      const legalAbilities = abilityRules[unit.class](unitPosition)
       const isLegalMove = legalMoves.find(move => move.x === targetPosition.x && move.y === targetPosition.y) !== undefined
       const isLegalAttack = legalAttacks.find(move => move.x === targetPosition.x && move.y === targetPosition.y) !== undefined
       const isLegalAbility = legalAbilities.find(move => move.x === targetPosition.x && move.y === targetPosition.y) !== undefined
@@ -94,7 +95,17 @@ const updateGame : UpdateGameFunc = (game, input, dt, canvasRect, state) => {
           }
 
           if (friendly && isLegalAbility) {
-            // #TODO:
+            const effect = abilityEffects[unit.class]
+            const requirement = abilityRequirements[unit.class]
+            if (requirement(unit, targetedUnit, units)) {
+              effect(unit, targetedUnit, units)
+
+              // Increment completed actions
+              unit.actionsCompleted += 1
+
+              // Action completed
+              actionCompletedThisUpdate = true
+            }
           }
         }
       }

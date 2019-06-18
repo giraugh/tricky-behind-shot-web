@@ -4,7 +4,7 @@ import {UnitPosition} from '../t/unit'
 
 export type PixelPosition = { x : number, y : number}
 
-export const centerPosition = (position : PixelPosition, canvasRect : CanvasRectangle) => {
+export const centerPosition = (position : PixelPosition, canvasRect : CanvasRectangle) : PixelPosition => {
   const {cellSize} = getGridInformation(canvasRect)
   return {
     x: position.x + cellSize / 2,

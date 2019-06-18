@@ -15,6 +15,7 @@ export type UIState = {
   selectedUnit : UnitID | null,
   unitLifts : { [unitId : number] : number },
   unitCrosses: { [unitId : number] : number },
+  unitArrows: { [unitId : number] : {position : PixelPosition, progress : number} },
   unitDrawPosition: { [unitId : number] : PixelPosition }
 }
 

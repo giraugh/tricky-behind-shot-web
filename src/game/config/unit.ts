@@ -35,7 +35,7 @@ type MaximumActionValues = {[unitClass: number] : number}
 export const maximumActionValues : MaximumActionValues = {
   [UnitClass.Grunt] : 2,
   [UnitClass.Archer] : 2,
-  [UnitClass.King]: 1,
+  [UnitClass.King]: 2,
   [UnitClass.Sprinter] : 2,
   [UnitClass.Paladin] : 2,
   [UnitClass.Tank] : 2
@@ -52,7 +52,7 @@ export const movementRules : ActionRules = {
 export const attackingRules : ActionRules = {
   [UnitClass.Grunt]: movementRules[UnitClass.Grunt],
   [UnitClass.Sprinter]: movementRules[UnitClass.Sprinter],
-  [UnitClass.Tank]: movementRules[UnitClass.Tank],
+  [UnitClass.Tank]: position => surroundingPositions(position, 1, true),
   [UnitClass.Archer]: position => excludePositions(surroundingPositions(position, 2, true), surroundingPositions(position, 1, true)),
   [UnitClass.Paladin]: movementRules[UnitClass.Paladin],
   [UnitClass.King]: position => surroundingPositions(position, 1, true)
