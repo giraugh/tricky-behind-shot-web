@@ -4,7 +4,7 @@ import {Input, InputType} from '../t/input'
 import grid from '../config/grid'
 import {getGridInformation, canvasPositionToUnitPosition, unitPositionToCanvasPosition} from '../util/positioning'
 import {lerp} from '../util/maths'
-import {maximumActionValues} from '../config/unit'
+import {maximumActionValues, unitHealthValues, unitAttackDamageValues, movementRules} from '../config/unit'
 import params from '../config/params'
 
 type UpdateUIFunc = (ui : UIState, input : Input, dt : number, canvasRect : CanvasRectangle, state : State) => UIState
@@ -80,6 +80,31 @@ const updateUI : UpdateUIFunc = (ui, input, dt, canvasRect, state) => {
         }
       } else {
         ui.unitLifts[unit.id] = lerp(ui.unitLifts[unit.id], 0, grid.unitHighlightAnimSpeed * 1.5)
+      }
+    }
+  }
+
+  // Update cross effects for each unit
+  const selectedUnit = units.find(unit => unit.id === ui.selectedUnit)
+  const selectedUnitDrawPosition = selectedUnit && ui.unitDrawPosition[selectedUnit.id]
+  const selectedPosition = selectedUnitDrawPosition && canvasPositionToUnitPosition(
+    {x: selectedUnitDrawPosition.x + gridCellSize / 2, y: selectedUnitDrawPosition.y + gridCellSize / 2},
+    canvasRect
+  )
+  const legalMoves = selectedUnit && movementRules[selectedUnit.class](selectedUnit.position)
+  const isLegalMove = legalMoves && legalMoves.find(move => move.x === selectedPosition.x && move.y === selectedPosition.y)
+  const inhabitingUnit = selectedPosition && units.find(unit => unit.position.x === selectedPosition.x && unit.position.y === selectedPosition.y)
+  const isFriendly = inhabitingUnit && (selectedUnit.player === inhabitingUnit.player)
+  for (let i = 0; i < params.teamSize * 2; i++) {
+    const unit = units.find(unit => unit.id === i)
+    if (unit) {
+      if (inhabitingUnit && unit.id === inhabitingUnit.id && !isFriendly && isLegalMove) {
+        const attackDamage = unitAttackDamageValues[selectedUnit.class]
+        const inhabitingHealth = unitHealthValues[inhabitingUnit.class]
+        const willDie = inhabitingHealth - inhabitingUnit.damageTaken <= attackDamage
+        ui.unitCrosses[unit.id] = lerp(ui.unitCrosses[unit.id], willDie ? 1 : 0.5, grid.unitHighlightAnimSpeed * .9)
+      } else {
+        ui.unitCrosses[unit.id] = lerp(ui.unitCrosses[unit.id], 0, grid.unitHighlightAnimSpeed)
       }
     }
   }

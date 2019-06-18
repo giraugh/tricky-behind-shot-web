@@ -14,6 +14,7 @@ export type UIState = {
   highlightedUnit : UnitID | null,
   selectedUnit : UnitID | null,
   unitLifts : { [unitId : number] : number },
+  unitCrosses: { [unitId : number] : number },
   unitDrawPosition: { [unitId : number] : PixelPosition }
 }
 

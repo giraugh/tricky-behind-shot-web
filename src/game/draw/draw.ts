@@ -3,6 +3,7 @@ import {State} from '../t/state'
 import drawGrid from './drawGrid'
 import drawUnits from './drawUnits'
 import drawSelectingEffects from './drawSelectingEffects'
+import drawUnitCrossEffects from './drawUnitCrossEffects'
 
 export default (state : State, canvasRect : CanvasRectangle) => (ctx : CanvasRenderingContext2D) => {
   // get canvas size
@@ -20,4 +21,7 @@ export default (state : State, canvasRect : CanvasRectangle) => (ctx : CanvasRen
 
   // draw units
   drawUnits([...state.game.units], state.ui, canvasRect, ctx)
+
+  // draw unit crosses
+  drawUnitCrossEffects([...state.game.units], state.ui, canvasRect, ctx)
 }

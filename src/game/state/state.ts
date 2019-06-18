@@ -14,6 +14,7 @@ const initialStateFunc : InitialStateFunc = (parameters) => ({
     highlightedUnit: null,
     selectedUnit: null,
     unitLifts: unitDictFromTeamCompositions(parameters.teamCompositions, 0),
+    unitCrosses: unitDictFromTeamCompositions(parameters.teamCompositions, 0), // 0 -> nothing, 0.5 -> one diag, 1 -> two diags (cross)
     unitDrawPosition: unitDictFromTeamCompositions<PixelPosition>(parameters.teamCompositions, {x: 0, y: 0})
   }
 })
