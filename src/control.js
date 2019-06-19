@@ -23,7 +23,8 @@ export default class GameControl {
     window.state = {...this.state}
     const startTime = window.state.game.turnStartTime
     const duration = Date.now() - startTime
-    window.document.title = `TBS (${Math.floor(turns.turnMaxTime / 1000) - Math.floor(duration / 1000)}s left)`
+    const currentPlayer = window.state.game.turn === 0 ? 'Red' : 'Blue'
+    window.document.title = `TBS (${currentPlayer} has ${Math.floor(turns.turnMaxTime / 1000) - Math.floor(duration / 1000)}s left)`
 
     // Update updateTime
     this.previousUpdateTime = Date.now()
