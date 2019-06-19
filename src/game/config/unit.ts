@@ -17,7 +17,7 @@ export const unitHealthValues : UnitHealthValues = {
   [UnitClass.Archer] : 1,
   [UnitClass.King]: 2,
   [UnitClass.Sprinter] : 1,
-  [UnitClass.Paladin] : 3,
+  [UnitClass.Paladin] : 2,
   [UnitClass.Tank] : 4
 }
 
@@ -46,7 +46,7 @@ export const movementRules : ActionRules = {
   [UnitClass.Sprinter]: position => surroundingPositions(position, 2, false),
   [UnitClass.Tank]: position => surroundingPositions(position, 1, false),
   [UnitClass.Archer]: position => surroundingPositions(position, 1, true),
-  [UnitClass.Paladin]: position => surroundingPositions(position, 1, true),
+  [UnitClass.Paladin]: position => surroundingPositions(position, 1, false),
   [UnitClass.King]: position => removeDuplicates([...surroundingPositions(position, 1, true), ...surroundingPositions(position, 2, false)])
 }
 export const attackingRules : ActionRules = {
