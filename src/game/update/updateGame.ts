@@ -120,8 +120,15 @@ const updateGame : UpdateGameFunc = (game, input, dt, canvasRect, state) => {
     game.turnActionsCompleted += 1
   }
 
+  // Calculate max possible actions
+  const totalUnitActions = units
+    .filter(unit => unit.player === game.turn)
+    .map(unit => maximumActionValues[unit.class])
+    .reduce((a, b) => a + b)
+  const maxPossibleTurnActions = Math.min(turns.maximumTurnActions, totalUnitActions)
+
   // Turn ended?
-  if (game.turnActionsCompleted >= turns.maximumTurnActions) {
+  if (game.turnActionsCompleted >= maxPossibleTurnActions) {
     // Reset turn actions completed
     game.turnActionsCompleted = 0
 
