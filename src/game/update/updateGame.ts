@@ -127,8 +127,17 @@ const updateGame : UpdateGameFunc = (game, input, dt, canvasRect, state) => {
     .reduce((a, b) => a + b)
   const maxPossibleTurnActions = Math.min(turns.maximumTurnActions, totalUnitActions)
 
+  // Is the turn time over?
+  const startTime = game.turnStartTime
+  const currentTime = Date.now()
+  const currentDuration = currentTime - startTime
+  const turnTimeOver = currentDuration >= turns.turnMaxTime
+
   // Turn ended?
-  if (game.turnActionsCompleted >= maxPossibleTurnActions) {
+  if (game.turnActionsCompleted >= maxPossibleTurnActions || turnTimeOver) {
+    // Reset turn time
+    game.turnStartTime = Date.now()
+
     // Reset turn actions completed
     game.turnActionsCompleted = 0
 

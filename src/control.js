@@ -1,4 +1,5 @@
 import Input from './util/input'
+import turns from './game/config/turns' //TEMPORARY #HACK
 
 export default class GameControl {
   constructor (canvas, updateFunc, drawFunc, initialState) {
@@ -20,6 +21,9 @@ export default class GameControl {
 
     // for debugging purposes
     window.state = {...this.state}
+    const startTime = window.state.game.turnStartTime
+    const duration = Date.now() - startTime
+    window.document.title = `TBS (${Math.floor(turns.turnMaxTime / 1000) - Math.floor(duration / 1000)}s left)`
 
     // Update updateTime
     this.previousUpdateTime = Date.now()
