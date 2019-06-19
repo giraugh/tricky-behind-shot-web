@@ -1,5 +1,5 @@
 import Input from './util/input'
-import turns from './game/config/turns' //TEMPORARY #HACK
+import turns from './game/config/turns' // TEMPORARY #HACK
 
 export default class GameControl {
   constructor (canvas, updateFunc, drawFunc, initialState) {
