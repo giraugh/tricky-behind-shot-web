@@ -8,11 +8,12 @@ export type UnitPosition = {
 
 export enum UnitClass {
   Grunt,
-  Archer,
+  Lancer,
   Tank,
   King,
   Paladin,
-  Sprinter
+  Sprinter,
+  Rogue
 }
 
 export type UnitID = number

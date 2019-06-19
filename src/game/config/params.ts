@@ -5,8 +5,8 @@ import {UnitClass} from '../t/unit'
 const gameParameters : GameParameters = {
   teamSize: 6,
   teamCompositions: {
-    red: [UnitClass.Tank, UnitClass.Tank, UnitClass.King, UnitClass.Archer, UnitClass.Sprinter],
-    blue: [UnitClass.Tank, UnitClass.Archer, UnitClass.Tank, UnitClass.Archer, UnitClass.Sprinter]
+    red: [UnitClass.Rogue, UnitClass.Grunt, UnitClass.Paladin, UnitClass.Lancer, UnitClass.Lancer],
+    blue: [UnitClass.Rogue, UnitClass.Lancer, UnitClass.Paladin, UnitClass.Lancer, UnitClass.Rogue]
   }
   // teamCompositions: {
   //   red: [UnitClass.Grunt, UnitClass.Sprinter, UnitClass.Tank, UnitClass.Paladin, UnitClass.King],

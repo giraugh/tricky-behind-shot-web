@@ -46,3 +46,9 @@ export const pushAbilityRequirement : (distance : number, follow : boolean) => A
 export const grantActionAbility : (amount : number) => Ability = amount => (unit, targetUnit, units) => {
   targetUnit.bonusActionsGranted += amount
 }
+
+export const swapPlaceAbility = () => (unit, targetUnit, units) => {
+  const unitOriginalPosition = {...unit.position}
+  unit.position = targetUnit.position
+  targetUnit.position = unitOriginalPosition
+}
