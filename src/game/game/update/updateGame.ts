@@ -11,13 +11,13 @@ import {Player} from '../t/player';
 type UpdateGameFunc = (game : GameState, input : Input, dt : number, canvasRect : CanvasRectangle, state : State) => GameState
 const updateGame : UpdateGameFunc = (game, input, dt, canvasRect, state) => {
   // Unit Actions
-  const units = game.units
+  let units = [...(game.units.map(u => ({...u})))]
   let unitsToRemove = []
   let actionCompletedThisUpdate = false
 
-  if (input.type == InputType.RELEASED) {
+  if (input.type === InputType.RELEASED) {
     if (state.ui.selectedUnit !== null) {
-      const unit = game.units.find(unit => unit.id === state.ui.selectedUnit)
+      const unit = units.find(unit => unit.id === state.ui.selectedUnit)
       const unitPosition = unit.position
 
       // Is units turn? (in practice, won't be selected if this isn't true)
@@ -111,9 +111,11 @@ const updateGame : UpdateGameFunc = (game, input, dt, canvasRect, state) => {
       }
     }
   }
-
+  
   // Remove dead units
-  game.units = game.units.filter(unit => !unitsToRemove.includes(unit.id))
+  if (unitsToRemove.length > 0) {
+    units = units.filter(unit => !unitsToRemove.includes(unit.id))
+  }
 
   // Increment turn actions if possible and change turns
   if (actionCompletedThisUpdate) {
@@ -145,12 +147,15 @@ const updateGame : UpdateGameFunc = (game, input, dt, canvasRect, state) => {
     game.turn = game.turn === Player.RedPlayer ? Player.BluePlayer : Player.RedPlayer
 
     // Heal and reset this team's units
-    game.units.filter(unit => unit.player === game.turn).forEach(unit => {
+    units.filter(unit => unit.player === game.turn).forEach(unit => {
       unit.damageTaken = 0
       unit.actionsCompleted = 0
       unit.bonusActionsGranted = 0
     })
   }
+
+  // set new game units
+  game.units = units
 
   return game
 }

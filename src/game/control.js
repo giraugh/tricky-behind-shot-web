@@ -1,13 +1,15 @@
 import Input from './util/input'
-import turns from './game/config/turns' // TEMPORARY #HACK
+import equal from 'fast-deep-equal'
 
 export default class GameControl {
-  constructor (canvas, updateFunc, drawFunc, initialState) {
+  constructor (canvas, updateFunc, drawFunc, initialState, stateChangeSubscriptions = []) {
     this.canvas = canvas
     this.updateFunc = updateFunc
     this.drawFunc = drawFunc
     this.state = {...initialState}
+    this.previousStates = []
     this.previousUpdateTime = Date.now()
+    this.stateChangeSubscriptions = stateChangeSubscriptions
 
     this.input = new Input(this.canvas.getPosition.bind(this.canvas))
   }
@@ -17,14 +19,18 @@ export default class GameControl {
     const input = this.input.getMouseInput()
     const canvasRect = this.canvas.getRect()
     const newState = this.updateFunc({...this.state}, input, deltaTime, canvasRect)
-    this.state = newState
 
-    // for debugging purposes
-    window.state = {...this.state}
-    const startTime = window.state.game.turnStartTime
-    const duration = Date.now() - startTime
-    const currentPlayer = window.state.game.turn === 0 ? 'Red' : 'Blue'
-    window.document.title = `TBS (${currentPlayer} has ${Math.floor(turns.turnMaxTime / 1000) - Math.floor(duration / 1000)}s left)`
+    // Store old state and set new state
+    if (!equal(newState, this.state)) {
+      // Report to subscribers if the state changes
+      this.stateChangeSubscriptions.forEach(({key, event}) => {
+        if (!equal(newState[key], this.state[key])) { event(newState[key]) }
+      })
+
+      // Record state changes
+      this.previousStates.push({...this.state})
+    }
+    this.state = newState
 
     // Update updateTime
     this.previousUpdateTime = Date.now()
