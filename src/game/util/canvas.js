@@ -14,8 +14,12 @@ export default class Canvas {
     }
   }
 
+  getClientRect () {
+    return this.canvas.getBoundingClientRect()
+  }
+
   getSize () {
-    const {width, height} = this.canvas.getBoundingClientRect()
+    const {width, height} = {width: this.canvas.width, height: this.canvas.height}
     return {
       width,
       height

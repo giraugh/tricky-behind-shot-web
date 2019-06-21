@@ -7,8 +7,9 @@ const MOVED = 'moved'
 const RELEASED = 'released'
 
 export default class Input {
-  constructor (originFunc) {
-    this.originFunc = originFunc
+  constructor (clientRectFunc, gameRectFunc) {
+    this.clientRectFunc = clientRectFunc
+    this.gameRectFunc = gameRectFunc
     this.mouseEvents = []
 
     this.initMouseHandlers()
@@ -30,10 +31,11 @@ export default class Input {
   }
 
   translateMousePosition (tx, ty) {
-    const {x, y} = this.originFunc()
+    const {x, y, width, height} = this.clientRectFunc()
+    const {width: gameWidth, height: gameHeight} = this.gameRectFunc()
     return {
-      x: tx - x,
-      y: ty - y
+      x: (tx - x) / width * gameWidth,
+      y: (ty - y) / height * gameHeight
     }
   }
 

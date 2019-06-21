@@ -1,0 +1,42 @@
+.int-stat-display {
+  display: grid;
+  grid-template-columns: minmax(30px, 2fr) 5fr;
+  width: max-content;
+  align-items: center;
+  justify-items: start;
+  --dot-size: 17px;
+}
+
+.dots-container {
+  display: flex;
+  width: min-content;
+  align-items: center;
+}
+
+.dot {
+  display: inline-grid;
+  transition-duration: .2s;
+  transition-property: background-color, border-color;
+  margin-left: 5px;
+  width: var(--dot-size);
+  height: var(--dot-size);
+
+  background: transparent;
+  border: 1px solid var(--bar-dot-col);
+  border-radius: 50%;
+}
+
+.icon {
+  color: var(--bar-col);
+  font-size: 25px;
+}
+
+.dot.filled {
+  border: 1px solid transparent;
+  background: var(--bar-dot-col);
+}
+
+.dot.disabled {
+  border: 1px solid transparent;
+  background: transparent
+}

@@ -1,0 +1,29 @@
+.stats-bar {
+  width: 100%;
+  height: 40px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 2fr;
+  align-items: center;
+  justify-items: start;
+  padding-left: 20px;
+  padding-right: 20px;
+  
+  --bar-col: red;
+  --bar-dot-col: rgb(231, 7, 7);
+}
+
+.stats-bar > .stat {
+  padding: 10px;
+}
+
+.int-stat-display.health {
+  justify-self: start;
+}
+
+.int-stat-display.damage {
+  justify-self: start;
+}
+
+.int-stat-display.turn-actions {
+  justify-self: end;
+}

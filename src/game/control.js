@@ -11,7 +11,10 @@ export default class GameControl {
     this.previousUpdateTime = Date.now()
     this.stateChangeSubscriptions = stateChangeSubscriptions
 
-    this.input = new Input(this.canvas.getPosition.bind(this.canvas))
+    this.input = new Input(
+      this.canvas.getClientRect.bind(this.canvas),
+      this.canvas.getRect.bind(this.canvas)
+    )
   }
 
   update () {

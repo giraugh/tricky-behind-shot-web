@@ -5,9 +5,15 @@ import drawFunc from './game/draw/draw'
 import initialStateFunc from './game/state/state'
 import gameParameters from './game/config/params'
 
-export default (gameStateUpdatedEvent) => {
+export default (gameStateUpdatedEvent, uiStateUpdatedEvent) => {
   const canvas = new Canvas('canvas', 1024, 650)
-  const gameControl = new GameControl(canvas, updateFunc, drawFunc, initialStateFunc(gameParameters), [{key: 'game', event: gameStateUpdatedEvent}])
+  const gameControl = new GameControl(
+    canvas,
+    updateFunc,
+    drawFunc,
+    initialStateFunc(gameParameters),
+    [{key: 'game', event: gameStateUpdatedEvent}, {key: 'ui', event: uiStateUpdatedEvent}]
+  )
 
   const loop = () => {
     // Perform loop
