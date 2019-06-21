@@ -3,7 +3,7 @@ import initGame from '../game/game'
 import StatsBar from './StatsBar'
 import {unitHealthValues, unitAttackDamageValues} from '../game/game/config/unit'
 import turns from '../game/game/config/turns'
-import {getPlayerColour} from '../game/game/util/colour'
+import {getPlayerColour, getUnitColour} from '../game/game/util/colour'
 
 import '../style/GameContainer'
 import TurnTimerBar from './TurnTimerBar'
@@ -39,6 +39,7 @@ export default class GameContainer extends Component {
     let remainingTurnActions
     let maxTurnActions
     let playerColour
+    let unitColour
     let turnStartTime
     let turnMaxDuration
 
@@ -49,6 +50,7 @@ export default class GameContainer extends Component {
         unitMaxHealth = unitHealthValues[selectedUnit.class]
         unitHealth = unitMaxHealth - selectedUnit.damageTaken
         unitAttack = unitAttackDamageValues[selectedUnit.class]
+        unitColour = getUnitColour(selectedUnit)
       }
 
       playerColour = getPlayerColour(this.state.game.turn)
@@ -61,7 +63,7 @@ export default class GameContainer extends Component {
 
     return (
       <div className='game-container'>
-        <StatsBar colour={playerColour} health={unitHealth} maxHealth={unitMaxHealth} attack={unitAttack} turnActions={remainingTurnActions} maxTurnActions={maxTurnActions} />
+        <StatsBar turnColour={playerColour} unitColour={unitColour} health={unitHealth} maxHealth={unitMaxHealth} attack={unitAttack} turnActions={remainingTurnActions} maxTurnActions={maxTurnActions} />
         <TurnTimerBar colour={playerColour} turnStartTime={turnStartTime} turnMaxDuration={turnMaxDuration} />
         <div className='canvas-container'>
           <canvas id='canvas' />

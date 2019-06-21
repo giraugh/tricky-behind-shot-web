@@ -12,18 +12,23 @@ export default class StatsBar extends Component {
       attack,
       turnActions,
       maxTurnActions,
-      colour
+      turnColour,
+      unitColour
     } = this.props
 
-    const style = {
-      '--bar-col': colour,
-      '--bar-dot-col': colour
+    const turnStyle = {
+      '--bar-col': turnColour,
+      '--bar-dot-col': turnColour
+    }
+    const unitStyle = {
+      '--bar-col': unitColour,
+      '--bar-dot-col': unitColour
     }
     return (
-      <div className='stats-bar' style={style}>
-        <IntStatDisplay className={'stat health'} currentValue={health} maxValue={maxHealth} icon='heart' />
-        <IntStatDisplay className={'stat attack'} currentValue={attack} maxValue={attack} icon='fist-raised' />
-        <IntStatDisplay className={'stat turn-actions'} currentValue={turnActions} maxValue={maxTurnActions} icon='arrow-right' />
+      <div className='stats-bar'>
+        <IntStatDisplay className={'stat health'} style={unitStyle} currentValue={health} maxValue={maxHealth} icon='heart' />
+        <IntStatDisplay className={'stat attack'} style={unitStyle} currentValue={attack} maxValue={attack} icon='fist-raised' />
+        <IntStatDisplay className={'stat turn-actions'} style={turnStyle} currentValue={turnActions} maxValue={maxTurnActions} icon='arrow-right' />
         {this.props.children}
       </div>
     )

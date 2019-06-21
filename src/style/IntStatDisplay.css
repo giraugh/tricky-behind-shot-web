@@ -29,6 +29,12 @@
 .icon {
   color: var(--bar-col);
   font-size: 25px;
+  transition-property: color;
+  transition-duration: .2s;
+}
+
+.icon.disabled {
+  color: transparent;
 }
 
 .dot.filled {

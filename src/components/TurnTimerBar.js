@@ -16,7 +16,6 @@ export default class TurnTimerBar extends Component {
   }
 
   componentWillMount () {
-    console.log(this.props)
     this.resetTimer(this.props.turnStartTime, this.props.turnMaxDuration)
   }
 
@@ -46,7 +45,6 @@ export default class TurnTimerBar extends Component {
 
   render () {
     const {progress, enabled} = this.getProgress() // progress is [0, 1]
-    console.log('render with progress', progress)
     const childStyle = {
       width: `${progress * 100}%`
     }

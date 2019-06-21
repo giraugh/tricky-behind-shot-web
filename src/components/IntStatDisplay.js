@@ -7,8 +7,8 @@ export default class IntStatDisplay extends Component {
     const {currentValue, maxValue, icon, className} = this.props
     const maxPossibleValue = 4
     return (
-      <div className={`int-stat-display ${className}`}>
-        <span className={`icon fas fa-${icon}`} />
+      <div className={`int-stat-display ${className}`} style={this.props.style} >
+        <span className={`icon fas fa-${icon} ${currentValue ? 'enabled' : 'disabled'}`} />
         <div className='dots-container'>
           {
             Array.from({length: maxPossibleValue}).fill(1).map((_, i) => {
