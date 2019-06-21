@@ -21,12 +21,7 @@ const updateUI : UpdateUIFunc = (ui, input, dt, canvasRect, state) => {
   if (gridMousePosition) {
     const highlightedUnit = units.find(unit => unit.position.x === gridMousePosition.x && unit.position.y === gridMousePosition.y)
     if (highlightedUnit) {
-      // Don't highlight it if It has no actions remaining
-      const maximumActions = maximumActionValues[highlightedUnit.class] + highlightedUnit.bonusActionsGranted
-      const hasRemainingActions = highlightedUnit.actionsCompleted < maximumActions
-      if (hasRemainingActions) {
-        ui.highlightedUnit = highlightedUnit.id
-      }
+      ui.highlightedUnit = highlightedUnit.id
     }
   }
 
@@ -40,7 +35,11 @@ const updateUI : UpdateUIFunc = (ui, input, dt, canvasRect, state) => {
     if (input.type == InputType.PRESSED) {
       // Is it their turn?
       const unit = units.find(unit => unit.id === ui.highlightedUnit)
-      if (unit.player === state.game.turn) {
+
+      // Don't select it if It has no actions remaining
+      const maximumActions = maximumActionValues[unit.class] + unit.bonusActionsGranted
+      const hasRemainingActions = unit.actionsCompleted < maximumActions
+      if (unit.player === state.game.turn && hasRemainingActions) {
         ui.selectedUnit = ui.highlightedUnit
       }
     }
@@ -76,7 +75,10 @@ const updateUI : UpdateUIFunc = (ui, input, dt, canvasRect, state) => {
     const unit = units.find(unit => unit.id === i)
     if (unit) {
       if (unit.id === ui.highlightedUnit) {
-        if (unit.player === state.game.turn) {
+        // Don't highlight it if It has no actions remaining
+        const maximumActions = maximumActionValues[unit.class] + unit.bonusActionsGranted
+        const hasRemainingActions = unit.actionsCompleted < maximumActions
+        if (unit.player === state.game.turn && hasRemainingActions) {
           ui.unitLifts[unit.id] = lerp(ui.unitLifts[unit.id], 1, grid.unitHighlightAnimSpeed)
         } else {
           ui.unitLifts[unit.id] = lerp(ui.unitLifts[unit.id], 0, grid.unitHighlightAnimSpeed)
