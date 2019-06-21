@@ -24,6 +24,7 @@ export default class StatsBar extends Component {
         <IntStatDisplay className={'stat health'} currentValue={health} maxValue={maxHealth} icon='heart' />
         <IntStatDisplay className={'stat attack'} currentValue={attack} maxValue={attack} icon='fist-raised' />
         <IntStatDisplay className={'stat turn-actions'} currentValue={turnActions} maxValue={maxTurnActions} icon='arrow-right' />
+        {this.props.children}
       </div>
     )
   }

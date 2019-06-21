@@ -2,7 +2,7 @@
   height: max-content;
   width: 80%;
   display: grid;
-  grid-template-rows: 1fr 10fr;
+  /* grid-template-rows: 2fr 1fr 20fr; */
   align-items: center;
   justify-items: center; 
 }
