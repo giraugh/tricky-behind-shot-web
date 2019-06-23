@@ -12,9 +12,10 @@ import {gridLineColour} from '../config/colour'
 const drawUnit = (unit : Unit, ui : UIState, canvasRect : CanvasRectangle, ctx : CanvasRenderingContext2D) => {
   const {cellSize} = getGridInformation(canvasRect)
   const {unitFillPercentageDefault, unitFillPercentageHighlighted} = grid
-  const lineWidth = grid.unitLineWidth
   const unitLabelYOffset = grid.unitLabelYOffset
   const label = unitLabels[unit.class]
+
+  const lineWidth = grid.unitLineWidthDefault + unit.damageTaken * grid.unitLineWidthDamageIncrease
 
   // Does unit have remaining actions?
   const maximumActions = maximumActionValues[unit.class] + unit.bonusActionsGranted

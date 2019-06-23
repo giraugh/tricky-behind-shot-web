@@ -8,6 +8,7 @@ export default {
   labelFontFamily: 'Verdana',
   labelFontSizeDefault: 40,
   labelFontSizeHighlighted: 50,
-  unitLineWidth: 5,
+  unitLineWidthDefault: 5,
+  unitLineWidthDamageIncrease: 2,
   unitLabelYOffset: 3
 }
