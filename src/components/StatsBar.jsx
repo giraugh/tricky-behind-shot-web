@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import IntStatDisplay from './IntStatDisplay'
 
-import '../style/StatsBar'
+import '../style/StatsBar.css'
 
 export default class StatsBar extends Component {
   render () {

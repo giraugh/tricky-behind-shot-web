@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 
-import '../style/IntStatDisplay'
+import '../style/IntStatDisplay.css'
 
 export default class IntStatDisplay extends Component {
   render () {

@@ -1,5 +1,11 @@
 {
   "files.exclude": {
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/CVS": true,
+    "**/.DS_Store": true,
+    "**/Thumbs.db": true,
     ".cache": true,
     ".gitignore": true,
     ".vscode": true,
@@ -7,6 +13,7 @@
     "node_modules": true,
     "package-lock.json": true,
     "README.md": true,
-    ".babelrc": true,
-  }
+    ".babelrc": true
+  },
+  "hide-files.files": []
 }

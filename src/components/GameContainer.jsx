@@ -5,7 +5,7 @@ import {unitHealthValues, unitAttackDamageValues} from '../game/game/config/unit
 import turns from '../game/game/config/turns'
 import {getPlayerColour, getUnitColour} from '../game/game/util/colour'
 
-import '../style/GameContainer'
+import '../style/GameContainer.css'
 import TurnTimerBar from './TurnTimerBar'
 
 export default class GameContainer extends Component {

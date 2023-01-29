@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 
-import '../style/TurnTimerBar'
+import '../style/TurnTimerBar.css'
 
 export default class TurnTimerBar extends Component {
   constructor (props) {

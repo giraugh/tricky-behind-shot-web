@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import GameContainer from './GameContainer'
 
-import '../style/App'
+import '../style/App.css'
 
 export default class App extends Component {
   render () {
